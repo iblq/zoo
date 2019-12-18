@@ -12,8 +12,6 @@ import zooModel from './example/Zoo/model';
 
 import Test from './example/index';
 
-console.log(zoo);
-
 zoo.model(todoModel);
 zoo.model(zooModel);
 

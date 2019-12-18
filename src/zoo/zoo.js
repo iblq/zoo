@@ -56,8 +56,6 @@ class Zoo {
         newState[namespace] = currentReducer[type](payload, currentState);
         // 修改后的 state 必须是新的对象，这样才不会覆盖旧的 state，才可以修改生效
         newState = { ...newState };
-      } else {
-        console.log('warning: unknow action:' + type);
       }
 
       return newState;

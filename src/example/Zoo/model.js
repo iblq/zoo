@@ -15,9 +15,15 @@ export default {
       }, 1000);
     },
     addAnimal(name) {
-      console.log('zoo effects');
       const { list } = this.getState().zoo;
       this.setState({ list: [...list, name] });
+    },
+    deleteOne() {
+      const { list } = this.getState().zoo;
+      const res = [...list];
+      res.pop();
+
+      this.setState({ list: res });
     }
   },
   reducer: {

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import connect from '../../zoo/connect';
+import { connect } from '../../zoo';
 
 const TestTodo = props => {
-  const { dispatch, list } = props;
+  const { dispatch, list, zooEffects } = props;
 
   useEffect(() => {
     dispatch({ type: 'zoo/getAnimal' });
@@ -17,10 +17,15 @@ const TestTodo = props => {
     });
   };
 
+  const onDelete = () => {
+    zooEffects.deleteOne();
+  };
+
   return (
     <div>
       <input onChange={e => setValue(e.target.value)} />
       <button onClick={onAdd}>add animal</button>
+      <button onClick={onDelete}>delete animal</button>
       <br />
       <ul>
         {list &&
@@ -33,8 +38,12 @@ const TestTodo = props => {
   );
 };
 
-export default connect(state => {
-  return {
-    list: state.zoo.list
-  };
-})(TestTodo);
+export default connect(
+  state => {
+    return {
+      list: state.zoo.list
+    };
+  },
+  {},
+  ['todo', 'zoo']
+)(TestTodo);
