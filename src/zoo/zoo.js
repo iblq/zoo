@@ -20,6 +20,7 @@ class Zoo {
     this.allReducers = {};
   }
 
+  // 加载模块 model 方法
   model(modelObj) {
     const { state, reducer, effects, namespace } = modelObj;
     this.state[namespace] = state;
@@ -29,38 +30,48 @@ class Zoo {
     this.reducers[namespace] = newReducer;
     this.allReducers = { ...this.allReducers, ...newReducer };
 
-    // const newEffects = addNamespace(effects, namespace);
     this.effects[namespace] = effects;
   }
 
   createStore() {
-    const reducers = {};
-    Object.keys(this.reducers).forEach(namespace => {
-      const reducerObj = this.reducers[namespace];
-      const stateObj = this.state[namespace];
+    // 全部 state
+    const allState =
+      (this.store.getState && this.store.getState()) || this.state;
 
-      this.reducers[namespace] = (state = stateObj, action = {}) => {
-        const { type, payload } = action;
-        // const newType = `${namespace}/${type}`;
+    // 合并 reducer
+    const reducer = (state = allState, action) => {
+      let newState = state;
 
-        console.log(action);
+      const { type, payload } = action;
+      const [namespace, typeName] = type.split('/');
 
-        if (reducerObj[type]) {
-          return reducerObj[type](payload, stateObj);
-        }
+      // 根据 namespace 获取对应 model 中 reducer 函数对象
+      const currentState = newState[namespace];
+      const currentReducer = this.reducers[namespace];
 
-        console.log('unknow action type:' + type);
+      // 如果 action 对应 reducer 存在，则根据函数修改 state，否则直接返回原 state
+      if (currentReducer && currentReducer[type] && currentState) {
+        const res = currentReducer[type](payload, currentState);
 
-        return stateObj;
-      };
-    });
+        newState[namespace] = currentReducer[type](payload, currentState);
+        // 修改后的 state 必须是新的对象，这样才不会覆盖旧的 state，才可以修改生效
+        newState = { ...newState };
+      } else {
+        console.log('warning: unknow action:' + type);
+      }
 
-    this.store = createStore(combineReducers(this.reducers));
+      return newState;
+    };
+
+    // 创建 store
+    this.store = createStore(reducer);
 
     const { dispatch, getState } = this.store;
 
+    // 给每个 model 的 effects 对象添加 dispatch、getState 方法
     Object.keys(this.effects).forEach(namespace => {
       this.effects[namespace].dispatch = ({ type, payload }) =>
+        // 修改 action type，添加 namespace
         dispatch({ type: `${namespace}/${type}`, payload });
       this.effects[namespace].getState = getState;
     });
@@ -69,4 +80,10 @@ class Zoo {
   }
 }
 
-export default new Zoo();
+const zoo = new Zoo();
+
+const { store } = zoo;
+
+export default zoo;
+
+export { store };

@@ -5,7 +5,6 @@ export default {
   },
   effects: {
     setState(payload) {
-      console.log('todo setState');
       const state = this.getState();
       this.dispatch({ type: 'setState', payload });
     }
