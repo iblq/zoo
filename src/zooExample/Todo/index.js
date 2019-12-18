@@ -3,7 +3,14 @@ import connect from '../../zoo/connect';
 import './style.css';
 
 const TestTodo = props => {
-  const { dispatch, list, todoEffects, listStatus, loading } = props;
+  const {
+    dispatch,
+    list,
+    listStatus,
+    loading,
+    todoEffects,
+    zooEffects
+  } = props;
 
   const [value, setValue] = useState('');
 
@@ -15,10 +22,13 @@ const TestTodo = props => {
   };
 
   const onAddAnimal = () => {
-    dispatch({
-      type: 'zoo/addAnimal',
-      payload: value
-    });
+    // dispatch 实现
+    // dispatch({
+    //   type: 'zoo/addAnimal',
+    //   payload: value
+    // });
+    // effects 方法实现
+    zooEffects.addAnimal(value);
   };
 
   const onShowActived = () => {
@@ -49,7 +59,7 @@ const TestTodo = props => {
   return (
     <div>
       <input onChange={e => setValue(e.target.value)} />
-      <button onClick={onAdd}>add</button>
+      <button onClick={onAdd}>add todo</button>
       <button onClick={onAddAnimal}>add animal</button>
 
       <button onClick={onShowActived}>actived</button>
@@ -87,5 +97,5 @@ export default connect(
     };
   },
   {},
-  ['todo']
+  ['todo', 'zoo']
 )(TestTodo);

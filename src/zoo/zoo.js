@@ -51,8 +51,6 @@ class Zoo {
 
       // 如果 action 对应 reducer 存在，则根据函数修改 state，否则直接返回原 state
       if (currentReducer && currentReducer[type] && currentState) {
-        const res = currentReducer[type](payload, currentState);
-
         newState[namespace] = currentReducer[type](payload, currentState);
         // 修改后的 state 必须是新的对象，这样才不会覆盖旧的 state，才可以修改生效
         newState = { ...newState };

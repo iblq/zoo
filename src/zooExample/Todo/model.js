@@ -14,7 +14,10 @@ export default {
       const { list } = this.getState().todo;
       // async request
 
-      this.setState({ loading: true });
+      // 直接通过 setState 修改
+      // this.setState({ loading: true });
+      // 新增 reducer
+      this.dispatch({ type: 'setLoading', payload: true });
 
       setTimeout(() => {
         const newList = [...list];
@@ -25,6 +28,8 @@ export default {
     }
   },
   reducer: {
-    setState: (payload, state) => ({ ...state, ...payload })
+    // state 参数是当前 model 的 state，自动传入
+    setState: (payload, state) => ({ ...state, ...payload }),
+    setLoading: (payload, state) => ({ ...state, loading: payload })
   }
 };

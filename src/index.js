@@ -5,12 +5,12 @@ import { Provider } from 'react-redux';
 import App from './components/App';
 import rootReducer from './reducers';
 
-import zoo from './zoo/zoo';
+import zoo from './zoo';
 
-import todoModel from './example/Todo/model';
-import zooModel from './example/Zoo/model';
+import todoModel from './zooExample/Todo/model';
+import zooModel from './zooExample/Zoo/model';
 
-import Test from './example/index';
+import ZooExample from './zooExample/index';
 
 zoo.model(todoModel);
 zoo.model(zooModel);
@@ -20,7 +20,7 @@ const zooStore = zoo.createStore();
 
 render(
   <Provider store={zooStore}>
-    <Test />
+    <ZooExample />
   </Provider>,
   document.getElementById('root')
 );
