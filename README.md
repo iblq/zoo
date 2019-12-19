@@ -27,3 +27,5 @@ const onAdd = () => {
 yarn install
 yarn start
 ```
+
+> 示例中实现了 todo list 基本功能，可对比 redux 原生代码

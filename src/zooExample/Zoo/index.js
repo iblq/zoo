@@ -45,5 +45,6 @@ export default connect(
     };
   },
   {},
+  // effects 注入
   ['todo', 'zoo']
 )(TestTodo);
