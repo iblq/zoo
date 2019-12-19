@@ -13,7 +13,6 @@ const AddTodo = ({ dispatch }) => {
           if (!input.value.trim()) {
             return;
           }
-          console.log('213');
           dispatch(addTodo(input.value));
           input.value = '';
         }}
