@@ -16,8 +16,6 @@ export default (mapState, mapDispatch = {}, effectsArr = []) => {
       }
     };
 
-    // const
-
     const NewComponent = props => {
       const { effects } = zoo;
       const effectsProps = {};
@@ -25,6 +23,7 @@ export default (mapState, mapDispatch = {}, effectsArr = []) => {
       effectsArr.forEach(item => {
         if (effects[item]) {
           effectsProps[`${item}Effects`] = effects[item];
+          myDispatch[`${item}Effects`] = effects[item];
         }
       });
 

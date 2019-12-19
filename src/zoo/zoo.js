@@ -20,6 +20,14 @@ class Zoo {
     this.allReducers = {};
   }
 
+  init(models) {
+    Object.values(models).forEach(item => {
+      this.model(item);
+    });
+
+    return this.createStore();
+  }
+
   // 加载模块 model 方法
   model(modelObj) {
     const { state, reducer, effects, namespace } = modelObj;
@@ -76,10 +84,4 @@ class Zoo {
   }
 }
 
-const zoo = new Zoo();
-
-const { store } = zoo;
-
-export default zoo;
-
-export { store };
+export default new Zoo();

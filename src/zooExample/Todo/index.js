@@ -17,7 +17,7 @@ const TestTodo = props => {
   const onAdd = () => {
     dispatch({
       type: 'todo/setState',
-      payload: { list: [...(list || []), { title: value, status: 0 }] }
+      payload: { list: [...list, { title: value, status: 0 }] }
     });
   };
 
@@ -27,8 +27,12 @@ const TestTodo = props => {
     //   type: 'zoo/addAnimal',
     //   payload: value
     // });
+
     // effects 方法实现
-    zooEffects.addAnimal(value);
+    // zooEffects.addAnimal(value);
+
+    // 扩展 dispatch
+    dispatch.zooEffects.addAnimal(value);
   };
 
   const onShowActived = () => {
@@ -37,6 +41,7 @@ const TestTodo = props => {
       payload: { listStatus: listStatus === 0 ? 'all' : 0 }
     });
   };
+
   const onShowFinished = () => {
     todoEffects.setState({
       listStatus: listStatus === 1 ? 'all' : 1
